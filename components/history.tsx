@@ -63,7 +63,7 @@ export default function History() {
                   <Copy className="h-4 w-4 -mx-1" />
                 </Button>
                 <Button variant="default" className="ml-auto" asChild>
-                  <Link href={`/${item.slugId}`}>
+                  <Link href={`/${item.slugId}`} target="_blank">
                     <ArrowUpRight className="h-4 w-4 -mx-1" />
                   </Link>
                 </Button>
