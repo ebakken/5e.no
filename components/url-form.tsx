@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import createRedirect from "@/actions/createRedirect";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   url: z.string().url({
@@ -47,6 +50,8 @@ const formSchema = z.object({
 });
 
 export function UrlForm() {
+  const [pending, setPending] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,12 +61,31 @@ export function UrlForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setPending(true);
+
     const transaction = await createRedirect({
       url: values.url,
       slugId: values.slug,
     });
 
-    console.log(transaction);
+    if (transaction.error) {
+      if (
+        transaction.error ===
+        `duplicate key value violates unique constraint "slugs_pkey"`
+      ) {
+        form.setError("slug", {
+          type: "manual",
+          message: "Slug is already taken.",
+        });
+      } else {
+        console.error(transaction.error);
+        toast.error("An error occurred. Please try again.");
+      }
+    } else {
+      toast.success("Link created successfully.");
+    }
+
+    setPending(false);
   }
 
   return (
@@ -108,7 +132,10 @@ export function UrlForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={pending} type="submit">
+          {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Submit
+        </Button>
       </form>
     </Form>
   );

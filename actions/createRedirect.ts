@@ -29,7 +29,7 @@ export default async function createRedirect({
           .returning()
       )[0];
 
-      return { slug, redirect };
+      return { slug, redirect, error: null };
     })
     .catch((error) => {
       return { error: error.message };
