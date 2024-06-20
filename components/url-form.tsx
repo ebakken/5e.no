@@ -19,6 +19,7 @@ import createRedirect from "@/actions/createRedirect";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { addItemToLocalStorage } from "@/lib/localstorage";
 
 const formSchema = z.object({
   url: z.string().url({
@@ -82,6 +83,7 @@ export function UrlForm() {
         toast.error("An error occurred. Please try again.");
       }
     } else {
+      addItemToLocalStorage(transaction.redirect);
       toast.success("Link created successfully.");
     }
 
