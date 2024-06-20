@@ -1,3 +1,4 @@
+import History from "@/components/history";
 import {
   Card,
   CardContent,
@@ -9,7 +10,7 @@ import { UrlForm } from "@/components/url-form";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center max-w-md mx-auto p-2">
+    <main className="flex min-h-screen flex-col items-center justify-center max-w-md mx-auto p-2 space-y-8">
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Create link</CardTitle>
@@ -21,6 +22,7 @@ export default function Home() {
           <UrlForm />
         </CardContent>
       </Card>
+      <History />
     </main>
   );
 }
