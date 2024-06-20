@@ -13,7 +13,7 @@ export default async function createRedirect({
   const transaction = await db
     .transaction(async (db) => {
       const slug = (
-        await dbs
+        await db
           .insert(SlugTable)
           .values({ id: slugId || nanoid(6) })
           .returning()
