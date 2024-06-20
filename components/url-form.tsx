@@ -68,7 +68,7 @@ export function UrlForm() {
       slugId: values.slug,
     });
 
-    if (transaction.error) {
+    if ("error" in transaction) {
       if (
         transaction.error ===
         `duplicate key value violates unique constraint "slugs_pkey"`
