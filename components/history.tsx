@@ -44,18 +44,20 @@ export default function History() {
       <CardContent>
         <div className="space-y-8">
           {items.map((item) => (
-            <div key={item.slugId} className="flex items-center">
-              <div className="rounded-full bg-primary-foreground --border">
+            <div key={item.slugId} className="flex items-center gap-4">
+              <div className="rounded-full bg-primary-foreground">
                 <LinkIcon className="h-9 w-9 p-2" />
               </div>
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">
+              <div className="space-y-1 min-w-0">
+                <p className="text-sm font-medium leading-none text-ellipsis overflow-hidden text-nowrap">
                   <span className="">5e.no/</span>
                   {item.slugId}
                 </p>
-                <p className="text-sm text-muted-foreground">{item.url}</p>
+                <p className="text-sm text-muted-foreground text-ellipsis overflow-hidden text-nowrap">
+                  {item.url}
+                </p>
               </div>
-              <div className="ml-auto space-x-2">
+              <div className="ml-auto space-x-2 shrink-0">
                 <Button variant="outline" className="ml-auto">
                   {/* TODO: Copy to clipboard and notify user */}
                   <Copy className="h-4 w-4 -mx-1" />
