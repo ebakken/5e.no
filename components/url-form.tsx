@@ -28,7 +28,7 @@ const formSchema = z.object({
     .max(50, {
       message: "Slug must be at most 50 characters.",
     })
-    .regex(/^[a-zA-Z0-9-]+$/, {
+    .regex(/^[a-zA-Z0-9-_]+$/, {
       message:
         "Slug must only contain alphanumeric characters (letters and numbers) and dashes.",
     })
