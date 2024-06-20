@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import createRedirect from "@/actions/createRedirect";
 
 const formSchema = z.object({
   url: z.string().url({
@@ -54,8 +55,13 @@ export function UrlForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const transaction = await createRedirect({
+      url: values.url,
+      slugId: values.slug,
+    });
+
+    console.log(transaction);
   }
 
   return (
