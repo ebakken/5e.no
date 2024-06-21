@@ -45,7 +45,7 @@ const formSchema = z.object({
     .or(z.literal("")),
 });
 
-export function UrlForm() {
+export function RedirectForm() {
   const [pending, setPending] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UrlForm } from "@/components/url-form";
+import { RedirectForm } from "@/components/redirect-form";
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <UrlForm />
+          <RedirectForm />
         </CardContent>
       </Card>
       <History />
