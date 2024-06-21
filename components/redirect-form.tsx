@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,39 +19,13 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addItemToLocalStorage } from "@/lib/localstorage";
-import validateSlug from "@/actions/validateSlug";
-import debounce from "awesome-debounce-promise";
-
-const debouncedValidateSlug = debounce(validateSlug, 300);
-
-const formSchema = z.object({
-  url: z.string().url({
-    message: "Please enter a valid URL.",
-  }),
-  slug: z
-    .string()
-    .min(2, {
-      message: "Slug must be at least 2 characters.",
-    })
-    .max(50, {
-      message: "Slug must be at most 50 characters.",
-    })
-    .regex(/^[a-zA-Z0-9-_]+$/, {
-      message:
-        "Slug must only contain alphanumeric characters (letters and numbers), underscores and dashes.",
-    })
-    .refine(async (slug) => await debouncedValidateSlug(slug), {
-      message: "Slug is already taken.",
-    })
-    .optional()
-    .or(z.literal("")),
-});
+import { redirectFormSchema } from "@/lib/schemas";
 
 export function RedirectForm() {
   const [pending, setPending] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof redirectFormSchema>>({
+    resolver: zodResolver(redirectFormSchema),
     defaultValues: {
       url: "",
       slug: "",
@@ -60,7 +33,7 @@ export function RedirectForm() {
     mode: "onChange",
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof redirectFormSchema>) {
     setPending(true);
 
     const transaction = await createRedirect({
