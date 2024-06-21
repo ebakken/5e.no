@@ -1,6 +1,7 @@
 "use server";
 
 import getItem from "@/actions/getItem";
+import ContactCard from "@/components/contact-card";
 import { notFound, redirect } from "next/navigation";
 
 export default async function ViewOrRedirect({
@@ -10,9 +11,14 @@ export default async function ViewOrRedirect({
 }) {
   const item = await getItem({ slugId: slug });
 
+  // If the item doesn't exist, return a 404.
   if (!item) notFound();
 
-  if (item.redirects?.url) redirect(item.redirects.url);
+  // If the item has a URL, redirect to it.
+  if (item.redirects) redirect(item.redirects.url);
 
-  return <div>View something</div>;
+  // If the item has contact information, render a contact card.
+  if (item.contacts) return <ContactCard contact={item.contacts} />;
+
+  return notFound();
 }
