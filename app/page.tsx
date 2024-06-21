@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center max-w-md mx-auto px-4 py-8 space-y-8">
+    <div className="flex min-h-screen flex-col items-center justify-start max-w-md mx-auto px-4 py-8 space-y-8">
       <Tabs defaultValue="redirect" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="redirect">Link</TabsTrigger>
