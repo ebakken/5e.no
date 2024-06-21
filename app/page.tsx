@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { RedirectForm } from "@/components/redirect-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ContactForm } from "@/components/contact-form";
 
 export default function Home() {
   return (
@@ -39,7 +40,9 @@ export default function Home() {
                 As of now, we only support norwegian contact information.
               </CardDescription>
             </CardHeader>
-            <CardContent>Contact form</CardContent>
+            <CardContent>
+              <ContactForm />
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
