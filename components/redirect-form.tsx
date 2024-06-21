@@ -21,6 +21,9 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addItemToLocalStorage } from "@/lib/localstorage";
 import validateSlug from "@/actions/validateSlug";
+import debounce from "awesome-debounce-promise";
+
+const debouncedValidateSlug = debounce(validateSlug, 300);
 
 const formSchema = z.object({
   url: z.string().url({
@@ -38,7 +41,7 @@ const formSchema = z.object({
       message:
         "Slug must only contain alphanumeric characters (letters and numbers), underscores and dashes.",
     })
-    .refine(async (slug) => await validateSlug(slug), {
+    .refine(async (slug) => await debouncedValidateSlug(slug), {
       message: "Slug is already taken.",
     })
     .optional()
@@ -54,6 +57,7 @@ export function RedirectForm() {
       url: "",
       slug: "",
     },
+    mode: "onChange",
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
