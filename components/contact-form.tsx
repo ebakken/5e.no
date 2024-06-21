@@ -41,14 +41,7 @@ export function ContactForm() {
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     setPending(true);
 
-    const transaction = await createContact({
-      url: values.url,
-      slugId: values.slug,
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      message: values.message,
-    });
+    const transaction = await createContact(values);
 
     if ("error" in transaction) {
       if (

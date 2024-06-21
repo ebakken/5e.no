@@ -36,10 +36,7 @@ export function RedirectForm() {
   async function onSubmit(values: z.infer<typeof redirectFormSchema>) {
     setPending(true);
 
-    const transaction = await createRedirect({
-      url: values.url,
-      slugId: values.slug,
-    });
+    const transaction = await createRedirect(values);
 
     if ("error" in transaction) {
       if (

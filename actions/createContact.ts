@@ -1,29 +1,19 @@
 "use server";
 
 import { db, ContactTable, SlugTable } from "@/lib/drizzle";
+import { contactFormSchema } from "@/lib/schemas";
 import { nanoid } from "nanoid";
+import { z } from "zod";
 
-export default async function createContact({
-  url,
-  slugId,
-  name,
-  email,
-  message,
-  phone,
-}: {
-  url?: string;
-  slugId?: string;
-  name: string;
-  email: string;
-  message?: string;
-  phone: string;
-}) {
+export default async function createContact(
+  values: z.infer<typeof contactFormSchema>
+) {
   const transaction = await db
     .transaction(async (db) => {
       const slug = (
         await db
           .insert(SlugTable)
-          .values({ id: slugId || nanoid(6) })
+          .values({ id: values.slug || nanoid(6) })
           .returning()
       )[0];
 
@@ -32,11 +22,11 @@ export default async function createContact({
           .insert(ContactTable)
           .values({
             slugId: slug.id,
-            url,
-            name,
-            email,
-            message,
-            phone,
+            url: values.url,
+            name: values.name,
+            email: values.email,
+            message: values.message,
+            phone: values.phone,
           })
           .returning()
       )[0];
