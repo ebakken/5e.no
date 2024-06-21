@@ -12,6 +12,8 @@ import {
 import { ArrowUpRight, Copy, LinkIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "sonner";
 
 type Item = Redirect;
 
@@ -58,10 +60,14 @@ export default function History() {
                 </p>
               </div>
               <div className="ml-auto space-x-2 shrink-0">
-                <Button variant="outline" className="ml-auto">
-                  {/* TODO: Copy to clipboard and notify user */}
-                  <Copy className="h-4 w-4 -mx-1" />
-                </Button>
+                <CopyToClipboard
+                  onCopy={() => toast.success("Copied!")}
+                  text={`https://5e.no/${item.slugId}`}
+                >
+                  <Button variant="outline" className="ml-auto">
+                    <Copy className="h-4 w-4 -mx-1" />
+                  </Button>
+                </CopyToClipboard>
                 <Button variant="default" className="ml-auto" asChild>
                   <Link href={`/${item.slugId}`} target="_blank">
                     <ArrowUpRight className="h-4 w-4 -mx-1" />
