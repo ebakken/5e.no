@@ -1,6 +1,6 @@
 "use client";
 
-import { Redirect } from "@/lib/drizzle";
+import { Contact, Redirect } from "@/lib/drizzle";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -15,7 +15,7 @@ import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "sonner";
 
-type Item = Redirect;
+type Item = Redirect | Contact;
 
 export default function History() {
   const [items, setItems] = useState([] as Item[]);
@@ -50,13 +50,13 @@ export default function History() {
               <div className="rounded-full bg-primary-foreground">
                 <LinkIcon className="h-9 w-9 p-2" />
               </div>
-              <div className="space-y-1 min-w-0">
-                <p className="text-sm font-medium leading-none text-ellipsis overflow-hidden text-nowrap">
+              <div className="min-w-0">
+                <p className="text-sm font-medium leading-none text-ellipsis overflow-hidden text-nowrap pb-1">
                   <span className="">5e.no/</span>
                   {item.slugId}
                 </p>
                 <p className="text-sm text-muted-foreground text-ellipsis overflow-hidden text-nowrap">
-                  {item.url}
+                  {"name" in item ? item.name : item.url}
                 </p>
               </div>
               <div className="ml-auto space-x-2 shrink-0">

@@ -1,6 +1,6 @@
-import { Redirect } from "./drizzle";
+import { Contact, Redirect } from "./drizzle";
 
-export function addItemToLocalStorage(item: Redirect) {
+export function addItemToLocalStorage(item: Redirect | Contact) {
   const items = JSON.parse(localStorage.getItem("items") || "[]");
   items.unshift(item);
   localStorage.setItem("items", JSON.stringify(items));
