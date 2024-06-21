@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addItemToLocalStorage } from "@/lib/localstorage";
+import validateSlug from "@/actions/validateSlug";
 
 const formSchema = z.object({
   url: z.string().url({
@@ -35,17 +36,11 @@ const formSchema = z.object({
     })
     .regex(/^[a-zA-Z0-9-_]+$/, {
       message:
-        "Slug must only contain alphanumeric characters (letters and numbers) and dashes.",
+        "Slug must only contain alphanumeric characters (letters and numbers), underscores and dashes.",
     })
-    .refine(
-      (slug) => {
-        // TODO: Check if slug is already taken.
-        return true;
-      },
-      {
-        message: "Slug is already taken.",
-      }
-    )
+    .refine(async (slug) => await validateSlug(slug), {
+      message: "Slug is already taken.",
+    })
     .optional()
     .or(z.literal("")),
 });
