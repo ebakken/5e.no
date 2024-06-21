@@ -64,6 +64,7 @@ export function RedirectForm() {
     } else {
       addItemToLocalStorage(transaction.redirect);
       toast.success("Link created successfully.");
+      form.reset();
     }
 
     setPending(false);

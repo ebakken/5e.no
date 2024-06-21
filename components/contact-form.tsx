@@ -69,6 +69,7 @@ export function ContactForm() {
     } else {
       addItemToLocalStorage(transaction.contact);
       toast.success("Link created successfully.");
+      form.reset();
     }
 
     setPending(false);
