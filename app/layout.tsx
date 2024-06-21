@@ -30,7 +30,7 @@ export default function RootLayout({
             </Link>
           </header>
           {children}
-          <footer className="flex items-center justify-center w-full px-2">
+          <footer className="text-center px-2">
             <p className="text-sm text-muted-foreground">
               Built by{" "}
               <Link
@@ -48,6 +48,7 @@ export default function RootLayout({
               >
                 GitHub
               </Link>
+              .
             </p>
           </footer>
         </main>
