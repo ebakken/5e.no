@@ -18,89 +18,15 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addItemToLocalStorage } from "@/lib/localstorage";
-import validateSlug from "@/actions/validateSlug";
-import debounce from "awesome-debounce-promise";
 import createContact from "@/actions/createContact";
 import { Textarea } from "./ui/textarea";
-
-const debouncedValidateSlug = debounce(validateSlug, 300);
-
-const formSchema = z.object({
-  name: z
-    .string({
-      message: "Please enter a valid name.",
-    })
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    }),
-  email: z.string().email({
-    message: "Please enter a valid email.",
-  }),
-  phone: z
-    .string({
-      message: "Please enter a valid phone number.",
-    })
-    .regex(/^[0-9]+$/, {
-      message: "Phone number must only contain numbers.",
-    })
-    .min(8, {
-      message: "Phone number must be at least 8 characters.",
-    })
-    .max(8, {
-      message: "Message must be at most 8 characters.",
-    }),
-  description: z
-    .string({
-      message: "Please enter a valid description.",
-    })
-    .min(2, {
-      message: "Description must be at least 2 characters.",
-    })
-    .max(200, {
-      message: "Description must be at most 50 characters.",
-    })
-    .optional()
-    .or(z.literal("")),
-  url: z
-    .string()
-    .url({
-      message: "Please enter a valid URL.",
-    })
-    .optional()
-    .or(z.literal("")),
-  message: z
-    .string({
-      message: "Please enter a valid message.",
-    })
-    .max(200, {
-      message: "Message must be at most 200 characters.",
-    })
-    .optional()
-    .or(z.literal("")),
-  slug: z
-    .string()
-    .min(2, {
-      message: "Slug must be at least 2 characters.",
-    })
-    .max(50, {
-      message: "Slug must be at most 50 characters.",
-    })
-    .regex(/^[a-zA-Z0-9-_]+$/, {
-      message:
-        "Slug must only contain alphanumeric characters (letters and numbers), underscores and dashes.",
-    })
-    .refine(async (slug) => await debouncedValidateSlug(slug), {
-      message: "Slug is already taken.",
-    })
-    .optional()
-    .or(z.literal("")),
-});
+import { contactFormSchema } from "@/lib/schemas";
 
 export function ContactForm() {
   const [pending, setPending] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof contactFormSchema>>({
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       slug: "",
       name: "",
@@ -112,7 +38,7 @@ export function ContactForm() {
     mode: "onChange",
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     setPending(true);
 
     const transaction = await createContact({
