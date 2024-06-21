@@ -12,7 +12,7 @@ import { ContactForm } from "@/components/contact-form";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-start max-w-md mx-auto px-4 py-8 space-y-8">
+    <>
       <Tabs defaultValue="redirect" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="redirect">Link</TabsTrigger>
@@ -47,6 +47,6 @@ export default function Home() {
         </TabsContent>
       </Tabs>
       <History />
-    </div>
+    </>
   );
 }

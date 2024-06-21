@@ -21,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>{children}</main>
+        <main className="flex min-h-screen flex-col items-center justify-start max-w-md mx-auto px-4 py-8 space-y-8">
+          {children}
+        </main>
         <Toaster />
       </body>
     </html>
