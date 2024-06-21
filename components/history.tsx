@@ -37,13 +37,7 @@ export default function History() {
 
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Latest creations</CardTitle>
-        <CardDescription>
-          Here are the latest links you&apos;ve created.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <div className="space-y-8">
           {items.map((item) => (
             <div key={item.slugId} className="flex items-center gap-4">
