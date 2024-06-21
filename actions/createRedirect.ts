@@ -8,6 +8,14 @@ import { z } from "zod";
 export default async function createRedirect(
   values: z.infer<typeof redirectFormSchema>
 ) {
+  const validatedFields = await redirectFormSchema.safeParseAsync(values);
+
+  if (!validatedFields.success) {
+    return {
+      vaildation_errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
   const transaction = await db
     .transaction(async (db) => {
       const slug = (
@@ -30,7 +38,7 @@ export default async function createRedirect(
       return { slug, redirect };
     })
     .catch((error) => {
-      return { error: error.message };
+      return { database_error: error.message };
     });
 
   return transaction;

@@ -20,6 +20,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addItemToLocalStorage } from "@/lib/localstorage";
 import { redirectFormSchema } from "@/lib/schemas";
+import { Entries } from "type-fest";
 
 export function RedirectForm() {
   const [pending, setPending] = useState(false);
@@ -38,9 +39,9 @@ export function RedirectForm() {
 
     const transaction = await createRedirect(values);
 
-    if ("error" in transaction) {
+    if ("database_error" in transaction) {
       if (
-        transaction.error ===
+        transaction.database_error ===
         `duplicate key value violates unique constraint "slugs_pkey"`
       ) {
         form.setError("slug", {
@@ -48,8 +49,17 @@ export function RedirectForm() {
           message: "Slug is already taken.",
         });
       } else {
-        console.error(transaction.error);
+        console.error(transaction.database_error);
         toast.error("An error occurred. Please try again.");
+      }
+    } else if ("vaildation_errors" in transaction) {
+      for (const [key, value] of Object.entries(
+        transaction.vaildation_errors
+      ) as Entries<typeof transaction.vaildation_errors>) {
+        form.setError(key, {
+          type: "manual",
+          message: value && value.join(", "),
+        });
       }
     } else {
       addItemToLocalStorage(transaction.redirect);

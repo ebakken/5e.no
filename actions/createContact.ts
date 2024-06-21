@@ -8,6 +8,14 @@ import { z } from "zod";
 export default async function createContact(
   values: z.infer<typeof contactFormSchema>
 ) {
+  const validatedFields = await contactFormSchema.safeParseAsync(values);
+
+  if (!validatedFields.success) {
+    return {
+      vaildation_errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
   const transaction = await db
     .transaction(async (db) => {
       const slug = (
@@ -34,7 +42,7 @@ export default async function createContact(
       return { slug, contact };
     })
     .catch((error) => {
-      return { error: error.message };
+      return { database_error: error.message };
     });
 
   return transaction;
