@@ -1,8 +1,10 @@
 import { z } from "zod";
 import validateSlug from "@/actions/validateSlug";
 import debounce from "awesome-debounce-promise";
+import validatePostCode from "@/actions/validatePostCode";
 
 const debouncedValidateSlug = debounce(validateSlug, 300);
+const debouncedValidatePostCode = debounce(validatePostCode, 300);
 
 const slugSchema = z
   .string()
@@ -78,6 +80,22 @@ export const contactFormSchema = z.object({
     })
     .max(200, {
       message: "Message must be at most 200 characters.",
+    })
+    .optional()
+    .or(z.literal("")),
+  postCode: z
+    .string()
+    .regex(/^[0-9]+$/, {
+      message: "Phone number must only contain numbers.",
+    })
+    .min(4, {
+      message: "Post code must be at least 4 characters.",
+    })
+    .max(4, {
+      message: "Post code must be at most 4 characters.",
+    })
+    .refine(async (slug) => await debouncedValidatePostCode(slug), {
+      message: "Post code is invalid.",
     })
     .optional()
     .or(z.literal("")),
