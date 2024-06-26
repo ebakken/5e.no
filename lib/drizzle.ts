@@ -26,6 +26,8 @@ export const contacts = pgTable("contacts", {
   phone: text("phone").notNull(),
   url: text("url"),
   message: text("message"),
+  postCode: text("zip_code"),
+  postPlace: text("zip_place"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
