@@ -35,6 +35,7 @@ export function ContactForm() {
       phone: "",
       message: "",
       url: "",
+      postCode: "",
     },
     mode: "onChange",
   });
@@ -154,6 +155,22 @@ export function ContactForm() {
               <FormDescription>
                 URL to your website, linkedin profile or other social media
                 (optional).
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="postCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Post Code</FormLabel>
+              <FormControl>
+                <Input placeholder="0001" {...field} />
+              </FormControl>
+              <FormDescription>
+                The post code of your location (optional).
               </FormDescription>
               <FormMessage />
             </FormItem>

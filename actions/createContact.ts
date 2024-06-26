@@ -5,6 +5,7 @@ import { transporter } from "@/lib/email";
 import { contactFormSchema } from "@/lib/schemas";
 import { nanoid } from "nanoid";
 import { z } from "zod";
+import validatePostCode from "./validatePostCode";
 
 export default async function createContact(
   values: z.infer<typeof contactFormSchema>
@@ -36,6 +37,9 @@ export default async function createContact(
             email: values.email,
             message: values.message,
             phone: values.phone,
+            postCode: values.postCode,
+            postPlace:
+              values.postCode && (await validatePostCode(values.postCode)),
           })
           .returning()
       )[0];
