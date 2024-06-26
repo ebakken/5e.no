@@ -86,13 +86,13 @@ export const contactFormSchema = z.object({
   postCode: z
     .string()
     .regex(/^[0-9]+$/, {
-      message: "Phone number must only contain numbers.",
+      message: "Post code must only contain numbers.",
     })
     .min(4, {
-      message: "Post code must be at least 4 characters.",
+      message: "Post code must be at least 4 numbers.",
     })
     .max(4, {
-      message: "Post code must be at most 4 characters.",
+      message: "Post code must be at most 4 numbers.",
     })
     .refine(async (slug) => await debouncedValidatePostCode(slug), {
       message: "Post code is invalid.",
