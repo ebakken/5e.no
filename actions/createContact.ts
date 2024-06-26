@@ -1,6 +1,6 @@
 "use server";
 
-import { db, ContactTable, SlugTable } from "@/lib/drizzle";
+import { db, contacts, slugs } from "@/lib/drizzle";
 import { transporter } from "@/lib/email";
 import { contactFormSchema } from "@/lib/schemas";
 import { nanoid } from "nanoid";
@@ -21,14 +21,14 @@ export default async function createContact(
     .transaction(async (db) => {
       const slug = (
         await db
-          .insert(SlugTable)
+          .insert(slugs)
           .values({ id: values.slug || nanoid(6) })
           .returning()
       )[0];
 
       const contact = (
         await db
-          .insert(ContactTable)
+          .insert(contacts)
           .values({
             slugId: slug.id,
             url: values.url,

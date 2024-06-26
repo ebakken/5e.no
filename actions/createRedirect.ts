@@ -1,6 +1,6 @@
 "use server";
 
-import { db, RedirectTable, SlugTable } from "@/lib/drizzle";
+import { db, redirects, slugs } from "@/lib/drizzle";
 import { redirectFormSchema } from "@/lib/schemas";
 import { nanoid } from "nanoid";
 import { z } from "zod";
@@ -20,14 +20,14 @@ export default async function createRedirect(
     .transaction(async (db) => {
       const slug = (
         await db
-          .insert(SlugTable)
+          .insert(slugs)
           .values({ id: values.slug || nanoid(6) })
           .returning()
       )[0];
 
       const redirect = (
         await db
-          .insert(RedirectTable)
+          .insert(redirects)
           .values({
             slugId: slug.id,
             url: values.url,

@@ -2,24 +2,24 @@ import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 
-export const SlugTable = pgTable("slugs", {
+export const slugs = pgTable("slugs", {
   id: text("id").primaryKey(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const RedirectTable = pgTable("redirects", {
+export const redirects = pgTable("redirects", {
   id: serial("id").primaryKey(),
   slugId: text("slug_id")
-    .references(() => SlugTable.id)
+    .references(() => slugs.id)
     .notNull(),
   url: text("url").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const ContactTable = pgTable("contacts", {
+export const contacts = pgTable("contacts", {
   id: serial("id").primaryKey(),
   slugId: text("slug_id")
-    .references(() => SlugTable.id)
+    .references(() => slugs.id)
     .notNull(),
   name: text("name").notNull(),
   email: text("email").notNull(),
@@ -29,13 +29,13 @@ export const ContactTable = pgTable("contacts", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export type Slug = typeof SlugTable.$inferSelect;
-export type InsertSlug = typeof SlugTable.$inferInsert;
+export type Slug = typeof slugs.$inferSelect;
+export type InsertSlug = typeof slugs.$inferInsert;
 
-export type Redirect = typeof RedirectTable.$inferSelect;
-export type InsertRedirect = typeof RedirectTable.$inferInsert;
+export type Redirect = typeof redirects.$inferSelect;
+export type InsertRedirect = typeof redirects.$inferInsert;
 
-export type Contact = typeof ContactTable.$inferSelect;
-export type InsertContact = typeof ContactTable.$inferInsert;
+export type Contact = typeof contacts.$inferSelect;
+export type InsertContact = typeof contacts.$inferInsert;
 
 export const db = drizzle(sql);
