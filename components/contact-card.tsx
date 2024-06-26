@@ -25,6 +25,7 @@ export default function ContactCard({ contact }: { contact: Contact }) {
             <Link2Icon />
             <Link
               href={contact.url}
+              target="_blank"
               className="text-sm font-medium leading-none hover:underline underline-offset-4"
             >
               {contact.url}
